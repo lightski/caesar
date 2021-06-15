@@ -6,17 +6,20 @@ import string, sys
 
 def encrypt(key, plaintext):
     ''' 
-        params: int key - offset of A
+        params: char key - offset of A
                 string plaintext - message to be encoded
         desc: encrypt message by offsetting each letter by key
     '''
     shift = ord(key.upper()) - 65
-    ciphertext= ""
-    for c in (plaintext.replace(" ","")).upper():
-        nchar = chr(ord(c) + shift)
-        if ord(nchar) > 90:
-            nchar = chr(ord(nchar) - 26)
-        ciphertext += nchar
+    ciphertext = ""
+    for c in plaintext.upper():
+        if ord(c) != ord(" "):
+            nchar = chr(ord(c) + shift)
+            if ord(nchar) > 90:
+                nchar = chr(ord(nchar) - 26)
+            ciphertext += nchar
+        else:
+            ciphertext += " "
     return ciphertext
 
 if __name__ == "__main__":
@@ -26,8 +29,8 @@ if __name__ == "__main__":
         plaintext = sys.argv[2]
     except:
         # interactive mode: prompt user
-        key = input("Key/offset (char); 'A'= ")
+        key = input("Key (char); 'A'= ")
         plaintext = input("Plaintext: ")
     ciphertext = encrypt(key, plaintext)
-    print(' '.join(ciphertext[i:i+5] for i in range(0,len(ciphertext),5)))
+    print(ciphertext)
 

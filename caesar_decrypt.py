@@ -6,21 +6,22 @@ import string, sys
 
 def decrypt(key, ciphertext):
     ''' 
-        params: int key - offset of A
+        params: char key - offset of A
                 string ciphertext - encoded message to be read
         desc: decrypt message by reversing offset of each letter by key
     '''
     shift = ord(key.upper()) - 65
     plaintext = ""
-    for c in (ciphertext.replace(" ","")).upper():
-#        print("cipher char is:",c)
-        nchar = chr(ord(c) - shift)
-        if ord(nchar) < 65:
-            nchar = chr(ord(nchar) + 26)
-        elif ord(nchar) > 90:
-            nchar = chr(ord(nchar) - 26)
-        plaintext += nchar
-#        print("converting to:",nchar)
+    for c in ciphertext.upper():
+        if ord(c) != ord(" "):
+            nchar = chr(ord(c) - shift)
+            if ord(nchar) < 65:
+                nchar = chr(ord(nchar) + 26)
+            elif ord(nchar) > 90:
+                nchar = chr(ord(nchar) - 26)
+            plaintext += nchar
+        else:
+            plaintext += " "
     return plaintext
 
 if __name__ == "__main__":
@@ -30,10 +31,8 @@ if __name__ == "__main__":
         ciphertext = sys.argv[2]
     except:
         # interactive mode: prompt user
-        key = input("Key/offset (char); 'A'= ")
-        ciphertext = input("Ciphertext: ")
+        key = input("Key (char); 'A'= ")
+        ciphertext = inpt("Ciphertext: ")
     plaintext = decrypt(key, ciphertext)
-    #print(' '.join(plaintext[i:i+5] for i in range(0,len(plaintext),5)))
-    # maybe someday guess at spacing. for now just print raw
     print(plaintext)
 
